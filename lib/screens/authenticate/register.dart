@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'package:catalogue/Services/auth.dart';
 import 'package:catalogue/screens/authenticate/otp_screen.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 
 class Register extends StatefulWidget {
-  // const Register({ Key? key }) : super(key: key);
   final Function? toggleView;
   Register({this.toggleView});
   @override
@@ -15,8 +13,6 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final _phoneController = TextEditingController();
-
-  // AuthService _auth = AuthService();
   String? mobile;
 
   @override

@@ -1,7 +1,7 @@
+import 'package:catalogue/screens/home/productList.dart';
 import 'package:flutter/material.dart';
-import 'package:catalogue/screens/home/home.dart';
 import 'package:provider/provider.dart';
-import 'package:catalogue/screens/authenticate/authenticate.dart';
+import 'package:catalogue/screens/authenticate/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Wrapper extends StatelessWidget {
@@ -9,10 +9,11 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
 
-    if(user == null){
-      return Authenticate();
-    }else{
-      return ProductUpload();
+    if (user == null) {
+      return Register();
+    } else {
+      return ProductList();
+      // return ProductUpload();
     }
   }
 }

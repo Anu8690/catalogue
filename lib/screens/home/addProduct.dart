@@ -1,10 +1,10 @@
+import 'package:catalogue/screens/home/productList.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
-
+import 'package:catalogue/Models/product.dart';
 
 class ProductUpload extends StatefulWidget {
   const ProductUpload({Key? key}) : super(key: key);
@@ -15,6 +15,7 @@ class ProductUpload extends StatefulWidget {
 
 class _ProductUploadState extends State<ProductUpload> {
   String? _name;
+  String? _price;
   File? _image;
   String? _imageUrl;
   final picker = ImagePicker();
@@ -54,7 +55,7 @@ class _ProductUploadState extends State<ProductUpload> {
         print(e); // FirebaseException
       });
       String? imageUrl = await (await task).ref.getDownloadURL();
-      setState((){
+      setState(() {
         _imageUrl = imageUrl;
       });
     }
@@ -71,7 +72,8 @@ class _ProductUploadState extends State<ProductUpload> {
           IconButton(
               onPressed: () {
                 print("button pressed");
-                // getImage();
+                // switch bac to list
+                /////////////////////////////////
               },
               icon: Icon(Icons.add)),
         ],
@@ -104,9 +106,15 @@ class _ProductUploadState extends State<ProductUpload> {
                   SizedBox(height: 20.0),
                   TextFormField(
                     // decoration: textInputDecoration,
-                    // validator: (val) =>
-                    //     val.isEmpty ? 'Please enter a name' : null,
+                    validator: (val) =>
+                        val == null ? 'Please enter a name' : null,
                     onChanged: (val) => setState(() => _name = val),
+                  ),
+                  TextFormField(
+                    // decoration: textInputDecoration,
+                    validator: (val) =>
+                        val == null ? 'Please enter a name' : null,
+                    onChanged: (val) => setState(() => _price = val),
                   ),
                   TextButton(
                       onPressed: () {
@@ -119,8 +127,16 @@ class _ProductUploadState extends State<ProductUpload> {
                           print("fields empty");
                         } else {
                           await uploadImagetoFirebase(context);
-                          Product product = new Product(_name, _imageUrl);
+                          Product product = new Product(
+                              name: _name!,
+                              price: _price!,
+                              imageUrl: _imageUrl!);
                           await product.uploadProduct();
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProductList()),
+                              (route) => false);
                         }
                       },
                       child: Text('Upload'))
@@ -142,7 +158,6 @@ class ImageUpload extends StatefulWidget {
 }
 
 class _ImageUploadState extends State<ImageUpload> {
-  // final CollectionReference brewCollection = Firestore.instance.collection('brews');
   File? _image;
   final picker = ImagePicker();
 
@@ -233,25 +248,5 @@ class _ImageUploadState extends State<ImageUpload> {
         ),
       ),
     );
-  }
-}
-
-class Product {
-  String? _name;
-  String? _imageUrl;
-  Product(name, imageUrl) {
-    _name = name;
-    _imageUrl = imageUrl;
-  }
-  Future uploadProduct() async {
-    CollectionReference products =
-        FirebaseFirestore.instance.collection('products');
-    return products
-        .add({
-          'name': _name,
-          'imageUrl': _imageUrl,
-        })
-        .then((value) => print("user added"))
-        .catchError((error) => print("Failed to add user: $error"));
   }
 }
