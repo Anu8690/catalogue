@@ -1,4 +1,5 @@
 import 'package:catalogue/screens/home/productList.dart';
+import 'package:catalogue/shared/loading.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +15,7 @@ class ProductUpload extends StatefulWidget {
 }
 
 class _ProductUploadState extends State<ProductUpload> {
+  bool loading = false;
   String? _name;
   String? _price;
   File? _image;
@@ -63,90 +65,98 @@ class _ProductUploadState extends State<ProductUpload> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.green[50],
-      appBar: AppBar(
-        title: Text('Catalogue'),
-        backgroundColor: Colors.green[600],
-        actions: <Widget>[
-          IconButton(
-              onPressed: () {
-                print("button pressed");
-                // switch bac to list
-                /////////////////////////////////
-              },
-              icon: Icon(Icons.add)),
-        ],
-      ),
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(15),
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15),
-                ),
-                border: Border.all(color: Colors.white),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(2, 2),
-                    spreadRadius: 2,
-                    blurRadius: 1,
-                  ),
-                ],
-              ),
+    return loading
+        ? Loading(message: 'Uploading Product...')
+        : Scaffold(
+            backgroundColor: Colors.green[50],
+            appBar: AppBar(
+              title: Text('Catalogue'),
+              backgroundColor: Colors.green[600],
+              actions: <Widget>[
+                IconButton(
+                    onPressed: () {
+                      print("button pressed");
+                      // switch bac to list
+                      /////////////////////////////////
+                    },
+                    icon: Icon(Icons.add)),
+              ],
+            ),
+            body: Container(
+              color: Colors.white,
               child: Column(
                 children: <Widget>[
-                  Text("Add Product"),
-                  SizedBox(height: 20.0),
-                  TextFormField(
-                    // decoration: textInputDecoration,
-                    validator: (val) =>
-                        val == null ? 'Please enter a name' : null,
-                    onChanged: (val) => setState(() => _name = val),
+                  Container(
+                    margin: EdgeInsets.all(15),
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(15),
+                      ),
+                      border: Border.all(color: Colors.white),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(2, 2),
+                          spreadRadius: 2,
+                          blurRadius: 1,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Text("Add Product"),
+                        SizedBox(height: 20.0),
+                        TextFormField(
+                          // decoration: textInputDecoration,
+                          validator: (val) =>
+                              val == null ? 'Please enter a name' : null,
+                          onChanged: (val) => setState(() => _name = val),
+                        ),
+                        TextFormField(
+                          // decoration: textInputDecoration,
+                          validator: (val) =>
+                              val == null ? 'Please enter a name' : null,
+                          onChanged: (val) => setState(() => _price = val),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              getImage();
+                            },
+                            child: Text('Add Image')),
+                        TextButton(
+                            onPressed: () async {
+                              if (_image == null || _name == null) {
+                                print("fields empty");
+                              } else {
+                                setState(() {
+                                  loading = true;
+                                });
+                                await uploadImagetoFirebase(context);
+                                Product product = new Product(
+                                    name: _name!,
+                                    price: _price!,
+                                    imageUrl: _imageUrl!);
+                                await product.uploadProduct();
+                                setState(() {
+                                  loading = false;
+                                });
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProductList()),
+                                    (route) => false);
+                              }
+                            },
+                            child: Text('Upload'))
+                      ],
+                    ),
                   ),
-                  TextFormField(
-                    // decoration: textInputDecoration,
-                    validator: (val) =>
-                        val == null ? 'Please enter a name' : null,
-                    onChanged: (val) => setState(() => _price = val),
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        getImage();
-                      },
-                      child: Text('Add Image')),
-                  TextButton(
-                      onPressed: () async {
-                        if (_image == null || _name == null) {
-                          print("fields empty");
-                        } else {
-                          await uploadImagetoFirebase(context);
-                          Product product = new Product(
-                              name: _name!,
-                              price: _price!,
-                              imageUrl: _imageUrl!);
-                          await product.uploadProduct();
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProductList()),
-                              (route) => false);
-                        }
-                      },
-                      child: Text('Upload'))
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }
 

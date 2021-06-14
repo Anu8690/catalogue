@@ -13,7 +13,6 @@ class Wrapper extends StatelessWidget {
       return Register();
     } else {
       return ProductList();
-      // return ProductUpload();
     }
   }
 }
