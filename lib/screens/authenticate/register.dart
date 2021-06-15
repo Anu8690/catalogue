@@ -13,6 +13,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final _phoneController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   String? mobile;
 
   @override
@@ -21,6 +22,7 @@ class _RegisterState extends State<Register> {
         body: Container(
       padding: EdgeInsets.all(32),
       child: Form(
+        key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -28,7 +30,7 @@ class _RegisterState extends State<Register> {
             Text(
               "Log In",
               style: TextStyle(
-                  color: Colors.lightBlue,
+                  color: Colors.green[600],
                   fontSize: 36,
                   fontWeight: FontWeight.w500),
             ),
@@ -48,6 +50,7 @@ class _RegisterState extends State<Register> {
                   fillColor: Colors.grey[100],
                   hintText: "Phone Number"),
               controller: _phoneController,
+              validator: (value) => value!=null && value.length==10 ?null:'Please provide a valid Phone number',
               onChanged: (val) => setState(() => mobile = '+91$val'),
             ),
             SizedBox(
@@ -56,14 +59,12 @@ class _RegisterState extends State<Register> {
             Container(
               width: double.infinity,
               child: TextButton(
-                child: Text("Login"),
+                child: Text("Login",style: TextStyle(color: Colors.green[600]),),
                 onPressed: () async {
-                  if (mobile != null) {
+                  if (_formKey.currentState!.validate()) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
                             OtpScreen(mobile!)));
-                  } else {
-                    print("No mobile number given");
                   }
                 },
               ),

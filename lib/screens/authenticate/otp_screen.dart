@@ -64,6 +64,7 @@ class _OtpScreenState extends State<OtpScreen> {
         : Scaffold(
             key: _scaffoldkey,
             appBar: AppBar(
+              backgroundColor: Colors.green[600],
               title: Text('Verify OTP'),
             ),
             body: Column(
