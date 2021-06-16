@@ -13,6 +13,7 @@ class DatabaseService {
         imageUrl: data['imageUrl']??'',
         price: data['price']??'Contact Manufacturer',
         name: data['name']??'',
+        productId: data['productId'],
       );
     }).toList();
   }

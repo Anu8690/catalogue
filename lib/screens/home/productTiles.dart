@@ -17,7 +17,7 @@ class _ProductTilesState extends State<ProductTiles> {
 
     return CarouselSlider(
       options: CarouselOptions(
-        height: 1600.0,
+        height: MediaQuery.of(context).size.height,
         aspectRatio: 16 / 9,
         viewportFraction: 0.8,
         enlargeCenterPage: true,
@@ -26,57 +26,60 @@ class _ProductTilesState extends State<ProductTiles> {
       items: _productList.map((product) {
         return Builder(
           builder: (BuildContext context) {
-            return Container(
-              margin: EdgeInsets.symmetric(vertical: 70),
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15),
-                ),
-                border: Border.all(color: Colors.white),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(2, 2),
-                    spreadRadius: 2,
-                    blurRadius: 1,
+            return SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.height * 0.05),
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15),
                   ),
-                ],
-              ),
-              child: Column(
-                children: <Widget>[
-                  Card(
-                    clipBehavior: Clip.antiAlias,
-                    child: Column(
-                      children: [
-                        Image.network(
-                          product.imageUrl,
-                          height: 400,
-                          // cacheHeight: 400,
-                          // cacheWidth: 296,
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.arrow_drop_down_circle),
-                          title: Text(product.name),
-                          subtitle: Text(
-                            product.price,
-                            style:
-                                TextStyle(color: Colors.black.withOpacity(0.6)),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-                            style:
-                                TextStyle(color: Colors.black.withOpacity(0.6)),
-                          ),
-                        ),
-                      ],
+                  border: Border.all(color: Colors.white),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(2, 2),
+                      spreadRadius: 2,
+                      blurRadius: 1,
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Card(
+                      clipBehavior: Clip.antiAlias,
+                      child: Column(
+                        children: [
+                          Image.network(
+                            product.imageUrl,
+                            height: 400,
+                            // cacheHeight: 400,
+                            // cacheWidth: 296,
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.arrow_drop_down_circle),
+                            title: Text('ID: ${product.productId} - ${product.name}'),
+                            subtitle: Text(
+                              product.price,
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.6)),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.6)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },

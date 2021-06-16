@@ -22,6 +22,18 @@ class _ProductListState extends State<ProductList> {
       initialData: [],
       value: DatabaseService().products,
       child: Scaffold(
+        
+        drawer: Drawer(
+            child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Settings'),
+            ),
+          ],
+        )),
         backgroundColor: Colors.green[50],
         appBar: AppBar(
           title: Text('Catalogue'),

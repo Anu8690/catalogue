@@ -38,7 +38,7 @@ class _RegisterState extends State<Register> {
               height: 16,
             ),
             TextFormField(
-              keyboardType:  TextInputType.number,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -50,7 +50,9 @@ class _RegisterState extends State<Register> {
                   fillColor: Colors.grey[100],
                   hintText: "Phone Number"),
               controller: _phoneController,
-              validator: (value) => value!=null && value.length==10 ?null:'Please provide a valid Phone number',
+              validator: (value) => value != null && value.length == 10
+                  ? null
+                  : 'Please provide a valid Phone number',
               onChanged: (val) => setState(() => mobile = '+91$val'),
             ),
             SizedBox(
@@ -59,12 +61,14 @@ class _RegisterState extends State<Register> {
             Container(
               width: double.infinity,
               child: TextButton(
-                child: Text("Login",style: TextStyle(color: Colors.green[600]),),
+                child: Text(
+                  "Login",
+                  style: TextStyle(color: Colors.green[600]),
+                ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            OtpScreen(mobile!)));
+                        builder: (context) => OtpScreen(mobile!)));
                   }
                 },
               ),

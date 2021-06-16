@@ -155,7 +155,8 @@ class _ProductUploadState extends State<ProductUpload> {
                                         _image!,
                                       )
                                     : Text("No Image")),
-                            Text(imgErr,style: TextStyle(color: Colors.red[300])),
+                            Text(imgErr,
+                                style: TextStyle(color: Colors.red[300])),
                             TextButton(
                                 onPressed: () {
                                   getImage();
@@ -172,7 +173,8 @@ class _ProductUploadState extends State<ProductUpload> {
                                     Product product = new Product(
                                         name: _name!,
                                         price: _price!,
-                                        imageUrl: _imageUrl!);
+                                        imageUrl: _imageUrl!,
+                                        productId: '',);
                                     await product.uploadProduct();
                                     setState(() {
                                       loading = false;
