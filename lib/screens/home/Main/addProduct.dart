@@ -1,4 +1,4 @@
-import 'package:catalogue/screens/home/productList.dart';
+import 'package:catalogue/screens/home/Main/productList.dart';
 import 'package:catalogue/shared/loading.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
@@ -121,15 +121,17 @@ class _ProductUploadState extends State<ProductUpload> {
                             Text("Add Product"),
                             SizedBox(height: 20.0),
                             TextFormField(
-                              // decoration: textInputDecoration,
+                              decoration: InputDecoration(hintText: "Name"),
                               validator: (val) =>
                                   val == '' ? 'Please enter a name' : null,
                               onChanged: (val) => setState(() => _name = val),
                             ),
                             TextFormField(
-                              // decoration: textInputDecoration,
-                              validator: (val) =>
-                                  val == '' ? 'Please enter Price' : null,
+                              decoration: InputDecoration(hintText: "Price"),
+                              keyboardType: TextInputType.number,
+                              validator: (val) => val == ''
+                                  ? 'Please enter a valid Price'
+                                  : null,
                               onChanged: (val) => setState(() => _price = val),
                             ),
                             Container(
@@ -171,10 +173,11 @@ class _ProductUploadState extends State<ProductUpload> {
                                     });
                                     await uploadImagetoFirebase(context);
                                     Product product = new Product(
-                                        name: _name!,
-                                        price: _price!,
-                                        imageUrl: _imageUrl!,
-                                        productId: '',);
+                                      name: _name!,
+                                      price: _price!,
+                                      imageUrl: _imageUrl!,
+                                      productId: '',
+                                    );
                                     await product.uploadProduct();
                                     setState(() {
                                       loading = false;

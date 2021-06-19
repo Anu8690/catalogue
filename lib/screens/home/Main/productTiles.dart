@@ -17,6 +17,7 @@ class _ProductTilesState extends State<ProductTiles> {
 
     return CarouselSlider(
       options: CarouselOptions(
+        enableInfiniteScroll: false,
         height: MediaQuery.of(context).size.height,
         aspectRatio: 16 / 9,
         viewportFraction: 0.8,

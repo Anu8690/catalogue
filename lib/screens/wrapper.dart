@@ -1,4 +1,4 @@
-import 'package:catalogue/screens/home/productList.dart';
+import 'package:catalogue/screens/home/Main/productList.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:catalogue/screens/authenticate/register.dart';

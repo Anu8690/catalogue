@@ -1,7 +1,8 @@
 import 'package:catalogue/Services/productDatabase.dart';
-import 'package:catalogue/screens/home/addProduct.dart';
-import 'package:catalogue/screens/home/cart.dart';
-import 'package:catalogue/screens/home/productTiles.dart';
+import 'package:catalogue/screens/home/Main/addProduct.dart';
+import 'package:catalogue/screens/home/Cart/cart.dart';
+import 'package:catalogue/screens/home/Main/productTiles.dart';
+import 'package:catalogue/screens/home/generateBill.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:catalogue/Models/product.dart';
@@ -59,7 +60,11 @@ class _ProductListState extends State<ProductList> {
                 leading: Icon(Icons.label),
                 title: Text('Generate Bill'),
                 selected: _selectedDestination == 2,
-                onTap: () => selectDestination(2),
+                onTap: () {
+                  selectDestination(2);
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => BillGenerator()));
+                },
               ),
               Divider(
                 height: 1,
