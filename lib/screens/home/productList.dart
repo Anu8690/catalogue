@@ -2,7 +2,6 @@ import 'package:catalogue/Services/productDatabase.dart';
 import 'package:catalogue/screens/home/addProduct.dart';
 import 'package:catalogue/screens/home/cart.dart';
 import 'package:catalogue/screens/home/productTiles.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:catalogue/Models/product.dart';

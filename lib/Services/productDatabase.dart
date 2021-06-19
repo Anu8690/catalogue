@@ -26,30 +26,12 @@ class DatabaseService {
     }).toList();
   }
 
-  CartList _cartListFromSnapshot(QuerySnapshot snapshot) {
-     List<Product> list = snapshot.docs.map((doc) {
-      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-
-      return Product(
-        imageUrl: data['imageUrl'] ?? '',
-        price: data['price'] ?? 'Contact Manufacturer',
-        name: data['name'] ?? '',
-        productId: data['productId'],
-      );
-    }).toList();
-    return CartList(list: list);
-  }
-
   Stream<List<Product>> get products {
     return productCollectionRef.snapshots().map(_productListFromSnapshot);
   }
 
-  Stream<CartList> get cartProducts {
-    return cartCollectionRef.snapshots().map(_cartListFromSnapshot);
+  Stream<List<Product>> get cartProducts {
+    return cartCollectionRef.snapshots().map(_productListFromSnapshot);
   }
 }
 
-class CartList {
-  final List<Product> list;
-  CartList({required this.list});
-}

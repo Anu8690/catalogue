@@ -53,8 +53,10 @@ class Product {
         .doc(uid)
         .collection('cart');
 
+    // hash the document key below //
     return cartCollectionRef
-        .add({
+        .doc(productId)
+        .set({
           'name': name,
           'imageUrl': imageUrl,
           'price': price,
