@@ -77,7 +77,7 @@ class _ProductUploadState extends State<ProductUpload> {
         : Scaffold(
             backgroundColor: Colors.green[50],
             appBar: AppBar(
-              title: Text('Catalogue'),
+              title: Text('Add Product'),
               backgroundColor: Colors.green[600],
               actions: <Widget>[
                 IconButton(

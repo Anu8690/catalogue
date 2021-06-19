@@ -1,6 +1,8 @@
 import 'package:catalogue/Services/productDatabase.dart';
 import 'package:catalogue/screens/home/addProduct.dart';
+import 'package:catalogue/screens/home/cart.dart';
 import 'package:catalogue/screens/home/productTiles.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:catalogue/Models/product.dart';
@@ -67,7 +69,7 @@ class _ProductListState extends State<ProductList> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'Label',
+                  'Account settings',
                 ),
               ),
               ListTile(
@@ -86,6 +88,12 @@ class _ProductListState extends State<ProductList> {
         appBar: AppBar(
           title: Text('Catalogue'),
           backgroundColor: Colors.green[600],
+          actions: <Widget>[
+            IconButton(onPressed: (){
+              Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Cart()));
+            }, icon: Icon(Icons.shopping_cart))
+          ],
         ),
         body: ProductTiles(),
       ),

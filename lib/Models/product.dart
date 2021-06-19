@@ -3,12 +3,16 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+FirebaseAuth auth = FirebaseAuth.instance;
+String uid = auth.currentUser!.uid;
 
 class Product {
   final String name;
   final String price;
   final String imageUrl;
-  final String productId;
+  String productId;
   late int count;
   Product(
       {required this.name,
@@ -25,9 +29,11 @@ class Product {
     count = int.parse(prodId.substring(3));
     count += 1;
     prodId = 'AB-$count';
+    productId = prodId;
     UploadTask countTask = FirebaseStorage.instance
         .ref('assets/images/count.txt')
-        .putString(productId);
+        .putString(prodId);
+    await countTask;
     CollectionReference products =
         FirebaseFirestore.instance.collection('products');
     return products
@@ -36,6 +42,23 @@ class Product {
           'imageUrl': imageUrl,
           'price': price,
           'productId': prodId,
+        })
+        .then((value) => print("user added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
+  Future addToCart() async {
+    CollectionReference cartCollectionRef = FirebaseFirestore.instance
+        .collection('usercarts')
+        .doc(uid)
+        .collection('cart');
+
+    return cartCollectionRef
+        .add({
+          'name': name,
+          'imageUrl': imageUrl,
+          'price': price,
+          'productId': productId,
         })
         .then((value) => print("user added"))
         .catchError((error) => print("Failed to add user: $error"));

@@ -60,7 +60,8 @@ class _ProductTilesState extends State<ProductTiles> {
                           ),
                           ListTile(
                             leading: Icon(Icons.arrow_drop_down_circle),
-                            title: Text('ID: ${product.productId} - ${product.name}'),
+                            title: Text(
+                                'ID: ${product.productId} - ${product.name}'),
                             subtitle: Text(
                               product.price,
                               style: TextStyle(
@@ -69,10 +70,33 @@ class _ProductTilesState extends State<ProductTiles> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-                              style: TextStyle(
-                                  color: Colors.black.withOpacity(0.6)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Column(
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.favorite)),
+                                    Text('Like'),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          Product(
+                                                  name: product.name,
+                                                  price: product.price,
+                                                  imageUrl: product.imageUrl,
+                                                  productId: product.productId)
+                                              .addToCart();
+                                        },
+                                        icon: Icon(Icons.add)),
+                                    Text('Add to Cart'),
+                                  ],
+                                )
+                              ],
                             ),
                           ),
                         ],
