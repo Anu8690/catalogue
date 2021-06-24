@@ -1,3 +1,4 @@
+import 'package:catalogue/Services/bill.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +15,7 @@ class BillGenerator extends StatefulWidget {
 }
 
 class _BillGeneratorState extends State<BillGenerator> {
-  final String bill = "";
+  // final String bill = "";
   CollectionReference cartCollRef = FirebaseFirestore.instance
       .collection('usercarts')
       .doc(uid)
@@ -31,11 +32,15 @@ class _BillGeneratorState extends State<BillGenerator> {
     return allData;
   }
 
+  List<Map<String, dynamic>>? dataa;
+  Map<String, int>? quantityy;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          // bill(M, quantity);
+        },
         tooltip: 'Increment Counter',
         child: const Icon(Icons.add),
       ),
@@ -62,6 +67,7 @@ class _BillGeneratorState extends State<BillGenerator> {
             children = [];
             List<Map<String, dynamic>> data =
                 snapshot.data as List<Map<String, dynamic>>;
+            
             for (int i = 0; i < data.length; i++) {
               Widget temp = Card(
                 child: ListTile(
@@ -75,6 +81,7 @@ class _BillGeneratorState extends State<BillGenerator> {
                       keyboardType: TextInputType.number,
                       onChanged: (value) {
                         quantity![data[i]['productId']] = value as int;
+                        print(quantity[data[i]['productId']]);
                       },
                     ),
                   ),
@@ -83,6 +90,15 @@ class _BillGeneratorState extends State<BillGenerator> {
               );
               children.add(temp);
             }
+            // setState(() {
+            //   dataa = data;
+            //   quantityy = quantity;
+            // });
+            children.add(TextButton(
+                onPressed: () {
+                  bill(dataa!, quantityy);
+                },
+                child: Text('Calculate')));
           } else if (snapshot.hasError) {
             children = <Widget>[
               const Icon(
